@@ -1,6 +1,8 @@
 https://leetcode.com/problems/container-with-most-water/description/
 
 
+We can start with the container of maximum width and then if there is we find a bar whose height is greater than the shorter of the previous two bars we took into consideration, then we can calculate the area between those two bars and so on.
+
 
 
 class Solution {
