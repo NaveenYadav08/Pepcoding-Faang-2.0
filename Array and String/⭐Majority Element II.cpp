@@ -1,5 +1,7 @@
 // LEETCODE - https://leetcode.com/problems/majority-element-ii/submissions/
 
+Atmost k-1 elements can be my answer
+
 // CODE -
 
 class Solution {
