@@ -57,7 +57,7 @@ int kConcatenationMaxSum(vector<int>& nums, int k)
     else ans=maxSubArray(toko)+sum*(k-2);
         
     
-    ans=max<lli>(0,ans);
+    ans=max<lli>(0,ans); // given in question if all -ve then ans is 0
     ans%=(int)(1e9+7);
     
     
