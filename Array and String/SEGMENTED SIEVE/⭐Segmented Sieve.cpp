@@ -1,3 +1,6 @@
+https://cppsecrets.com/users/9999109111117110105971171035048484864103109971051084699111109/C00-Segmented-Sieve-Print-Primes-In-a-Range.php
+
+
 // C++ program to
 // print all primes in a range
 // using concept of Segmented Sieve
