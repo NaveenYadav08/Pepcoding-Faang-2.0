@@ -1,100 +1,93 @@
 https://cppsecrets.com/users/9999109111117110105971171035048484864103109971051084699111109/C00-Segmented-Sieve-Print-Primes-In-a-Range.php
 
 
-// C++ program to
-// print all primes in a range
-// using concept of Segmented Sieve
 #include <bits/stdc++.h>
 using namespace std;
- 
-// This functions finds all 
-// primes smaller than limit
-// using simple sieve of eratosthenes.  
-// It stores found
-// primes in vector prime[]
-void simpleSieve(int limit, vector<int>& prime)
+// generate All the primes responsible for maarking of prime till n
+// fillPrime function fills primes from 2 to sqrt of high in chprime(vector) array
+// it will go from 2 to root(n)
+void fillPrimes(vector<int>& prime, int high)
 {
-    bool mark[limit + 1];
-    memset(mark, false, sizeof(mark));
- 
-    for (int i = 2; i*i <= limit; ++i) 
-    {
-        if (mark[i] == false) 
-        {
-            // If not marked yet, then its a prime
-            prime.push_back(i);
-            for (int j = i; j <= limit; j += i)
-                mark[j] = true;
-        }
-    }
+	bool ck[high + 1];
+	memset(ck, true, sizeof(ck));
+	ck[1] = false;
+	ck[0] = false;
+	for (int i = 2; (i * i) <= high; i++) {
+		if (ck[i] == true) {
+			for (int j = i * i; j <= sqrt(high); j = j + i) {
+				ck[j] = false;
+			}
+		}
+	}
+	for (int i = 2; i * i <= high; i++) {
+		if (ck[i] == true) {
+			prime.push_back(i);
+		}
+	}
 }
- 
-// Finds all prime numbers 
-// in given range using
-// segmented sieve
-void primesInRange(int low, int high)
+
+
+// in segmented sieve we check for prime from range [low, high]
+void segmentedSieve(int low, int high)
 {
-     
-    // Compute all primes smaller or equal to
-    // square root of high using simple sieve
-    int limit = floor(sqrt(high)) + 1;
-    vector<int> prime;
-    simpleSieve(limit, prime);
  
-    // Count of elements in given range
-    int n = high - low + 1;
  
-    // Declaring boolean only for [low, high]
-    bool mark[n + 1];
-    memset(mark, false, sizeof(mark));
+	if (low<2 and high>=2){
+		low = 2;
+	}//for handling corner case when low = 1 and we all know 1 is not prime no.
+	bool prime[high - low + 1];
+//here prime[0] indicates whether low is prime or not similarly prime[1] indicates whether low+1 is prime or not
+	memset(prime, true, sizeof(prime));
+
+	vector<int> chprime;
  
-    // Use the found primes by 
-    // simpleSieve() to find
-    // primes in given range
-    for (int i = 0; i < prime.size(); i++) 
-    {
-         
-        // Find the minimum number 
-        // in [low..high] that is
-        // a multiple of prime[i] 
-        // (divisible by prime[i])
-        int loLim = floor(low / prime[i]) * prime[i];
-        if (loLim < low)
-            loLim += prime[i];
-        if(loLim==prime[i])
-            loLim += prime[i];
-         
-      /*  Mark multiples of prime[i] 
-          in [low..high]:
-          We are marking j - low 
-          for j, i.e. each number
-          in range [low, high] is 
-          mapped to [0, high - low]
-          so if range is [50, 100]  
-          marking 50 corresponds
-          to marking 0, marking 
-          51 corresponds to 1 and
-          so on.Also if the current j 
-          is prime don't mark 
-          it as true.In this way we need 
-          to allocate space only
-          for range  */
-        for (int j = loLim; j <= high; j += prime[i])
-            if(j != prime[i])
-              mark[j - low] = true;
-    }
+ int limit = floor(sqrt(high)) + 1;
+	fillPrimes(chprime, limit);
  
-    // Numbers which are not marked 
-    // in range, are prime
-    for (int i = low; i <= high; i++)
-        if (!mark[i - low])
-            cout << i << "  ";
+ 
+	//chprimes has primes in range [2,sqrt(n)]
+	// we take primes from 2 to sqrt[n] because the multiples of all primes below high are marked by these
+// primes in range 2 to sqrt[n] for eg: for number 7 its multiples i.e 14 is marked by 2, 21 is marked by 3,
+// 28 is marked by 4, 35 is marked by 5, 42 is marked 6, so 49 will be first marked by 7 so all number before 49
+// are marked by primes in range [2,sqrt(49)]
+	for (int i : chprime) {
+		int lower = (low / i);  // setting the lower val to nearest multiple of chprime
+		//here lower means the first multiple of prime which is in range [low,high]
+		//for eg: 3's first multiple in range [28,40] is 30		
+		if (lower <= 1) {
+			lower = i + i;
+		}
+		else if (low % i) {
+			lower = (lower * i) + i;
+		}
+		else {
+			lower = (lower * i);
+		}
+		for (int j = lower; j <= high; j = j + i) {
+			prime[j - low] = false;
+		}
+	}
+
+	for (int i = low; i <= high; i++) {
+		if (prime[i - low] == true) {
+			cout << (i) << " ";
+		}
+	}
 }
- 
-// Driver Code
+
+
 int main()
 {
-    int low = 10, high = 20;
-    primesInRange(low, high);
-    return 0;
+	// low should be greater than or equal to 2
+	int low = 2;
+	// low here is the lower limit
+	int high = 100;
+	// high here is the upper limit
+	// in segmented sieve we calculate primes in range [low,high]
+// here we initially we find primes in range [2,sqrt(high)] to mark all their multiples as not prime
+//then we mark all their(primes) multiples in range [low,high] as false
+// this is a modified sieve of eratosthenes , in standard sieve of eratosthenes we find prime from 1 to n(given number)
+// in segmented sieve we only find primes in a given interval
+cout<<"Primes in range "<<low<<" to "<< high<<" are\n";
+	segmentedSieve(low, high);
 }
