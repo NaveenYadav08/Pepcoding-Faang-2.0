@@ -56,5 +56,21 @@ public:
     }
 };
 
+// 
+
+//    IF I HAVE TO MAKE CUSTOM COMPARATOR IN PQ 
 
 
+
+typedef vector<int> pi;
+
+class comp{
+public:
+bool operator()(vector<int> one, vector<int> two)
+{
+    return one[0]>two[0];
+}
+};
+
+
+priority_queue<pi,vector<pi>,comp> pq;
