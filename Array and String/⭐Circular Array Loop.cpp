@@ -4,7 +4,7 @@
 
 //SLOW AND FAST POINTER 
 
-// O(n^2)
+// O(n)
 
 class Solution {
 public:
