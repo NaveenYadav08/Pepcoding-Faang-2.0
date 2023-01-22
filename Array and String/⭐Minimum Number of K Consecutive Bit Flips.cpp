@@ -6,6 +6,7 @@
 
 // Flipping is done when ar[i] has 0 and ar[i] is in original state of when ar[i] is 1 and ar[i] is in flipped state.
 
+// Flipping Greedily and from left to right
 
 class Solution {
 public:
