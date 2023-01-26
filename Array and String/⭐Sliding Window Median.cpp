@@ -19,7 +19,7 @@ multiset <double> m;
         if(nums.size() < k)
             return ans;
         for(int i=0; i<k; i++) {
-            m.insert(nums[i]);
+            m.insert(nums[i]); // log ( K ) 
         }
         ans.push_back(findMedian(0, 0));
         for(int i=k; i<nums.size(); i++) {
