@@ -1,0 +1,1 @@
+TO ease things up in LINKED LIST turn that thing into an array
